@@ -68,3 +68,30 @@ class StudentsController < ApplicationController
       params.require(:student).permit(:first_name, :last_name, :school_email, :major, :minor, :graduation_date)
     end
 end
+
+# GET /students or /students.json
+def index
+  @search_params = params[:search] || {}
+  @students = Student.all
+
+  if @search_params[:major].present?
+    @students = @students.where(major: @search_params[:major])
+  end
+
+end
+
+
+# GET /students or /students.json
+def index
+  Rails.logger.info "Params: #{params.inspect}"
+ 
+  @search_params = params[:search] || {}
+  @students = Student.all
+
+   Rails.logger.info "Search Params: #{@search_params.inspect}"
+
+  if @search_params[:major].present?
+    @students = @students.where(major: @search_params[:major])
+  end
+
+end
