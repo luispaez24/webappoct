@@ -70,28 +70,49 @@ class StudentsController < ApplicationController
 end
 
 # GET /students or /students.json
-def index
-  @search_params = params[:search] || {}
-  @students = Student.all
+#def index
+  #@search_params = params[:search] || {}
+  #@students = Student.all
 
-  if @search_params[:major].present?
-    @students = @students.where(major: @search_params[:major])
-  end
-
-end
+  #if @search_params[:major].present?
+    #@students = @students.where(major: @search_params[:major])
+  #end
+  #if @search_params[:name].present?
+    #@students = @students.where("first_name LIKE ? OR last_name LIKE ?", "%#{@search_params[:name]}%", "%#{@search_params[:name]}%")
+  #end
+#end
 
 
 # GET /students or /students.json
+#def index
+  #Rails.logger.info "Params: #{params.inspect}"
+ 
+  #@search_params = params[:search] || {}
+  #@students = Student.all
+
+   #Rails.logger.info "Search Params: #{@search_params.inspect}"
+
+  #if @search_params[:major].present?
+    #@students = @students.where(major: @search_params[:major])
+  #end
+
+#end
 def index
   Rails.logger.info "Params: #{params.inspect}"
- 
+  
+  # Fetch the search params
   @search_params = params[:search] || {}
   @students = Student.all
 
-   Rails.logger.info "Search Params: #{@search_params.inspect}"
+  Rails.logger.info "Search Params: #{@search_params.inspect}"
 
+  # Only apply the filters if values are present
   if @search_params[:major].present?
     @students = @students.where(major: @search_params[:major])
   end
 
+  if @search_params[:name].present?
+    name_query = "%#{@search_params[:name]}%"
+    @students = @students.where("first_name LIKE :name OR last_name LIKE :name", name: name_query)
+  end
 end

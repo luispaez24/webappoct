@@ -3,13 +3,20 @@
 <h1>Students</h1>
 
 <div id="students">
-  <% @students.each do |student| %>
-    <%= render student %>
-    <p>
-      <%= link_to "Show this student", student %>
-    </p>
+  <% if @students.any? %>
+    <% @students.each do |student| %>
+      <%= render student %>
+      <p>
+        <%= link_to "Show this student", student %>
+      </p>
+    <% end %>
+  <% elsif @search_params.present? %>
+   <p> idk </p>
+  <% else %>
+    <p>No students found</p>
   <% end %>
 </div>
 
 <%= link_to "New student", new_student_path %>
+
 <%= render 'search_form', search_params: @search_params %>
