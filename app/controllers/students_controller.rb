@@ -97,16 +97,41 @@ end
   #end
 
 #end
+#def index
+  #Rails.logger.info "Params: #{params.inspect}"
+
+  # Fetch search params or provide empty hash if none
+  #@search_params = params[:search] || {}
+
+  # Start with all students
+  #@students = Student.all
+
+  #Rails.logger.info "Search Params: #{@search_params.inspect}"
+
+  # Apply search filters only if the fields are not empty
+  #if @search_params[:major].present?
+    #@students = @students.where(major: @search_params[:major])
+  #end
+
+  #if @search_params[:name].present?
+    #name_query = "%#{@search_params[:name]}%"
+    #@students = @students.where("first_name LIKE :name OR last_name LIKE :name", name: name_query)
+
+    #render :index
+  #end
+#end
 def index
   Rails.logger.info "Params: #{params.inspect}"
-  
-  # Fetch the search params
+
+  # Fetch search params or provide empty hash if none
   @search_params = params[:search] || {}
+
+  # Start with all students
   @students = Student.all
 
   Rails.logger.info "Search Params: #{@search_params.inspect}"
 
-  # Only apply the filters if values are present
+  # Apply search filters only if the fields are not empty
   if @search_params[:major].present?
     @students = @students.where(major: @search_params[:major])
   end
@@ -115,4 +140,7 @@ def index
     name_query = "%#{@search_params[:name]}%"
     @students = @students.where("first_name LIKE :name OR last_name LIKE :name", name: name_query)
   end
+
+  # Render the index view after applying all the filters
+  render :index
 end

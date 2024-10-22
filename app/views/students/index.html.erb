@@ -1,22 +1,76 @@
-<p style="color: green"><%= notice %></p>
 
-<h1>Students</h1>
 
-<div id="students">
-  <% if @students.any? %>
-    <% @students.each do |student| %>
-      <%= render student %>
-      <p>
-        <%= link_to "Show this student", student %>
-      </p>
-    <% end %>
-  <% elsif @search_params.present? %>
-   <p> idk </p>
-  <% else %>
-    <p>No students found</p>
-  <% end %>
+#<h1>Students</h1>
+#<!--
+#<div id="students">
+  #<% if params[:search].present? %>
+    #<% if @students.any? %>
+      #<% @students.each do |student| %>
+        <%= render student %>
+        <p><%= link_to "Show this student", student %></p>
+      #<% end %>
+    #<% else %>
+      #<p style="color: red">No students found.</p>
+    #<% end %>
+  #<% else %>
+    #<p>Please enter search criteria to find students.</p>
+  #<% end %>
+#</div>
+-->
+#<%= link_to "New student", new_student_path %>
+
+#<%= render 'search_form', search_params: @search_params %>
+
+<h1 class="text-center text-primary">Students</h1>
+
+<div class="container mt-4">
+  <!-- Search Form -->
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-sm-10 col-lg-6">
+      <div class="p-3 bg-light border border-dark rounded">
+        <h2 id="search-students" class="sr-only">Search for Students</h2>
+        <%= render 'search_form', search_params: @search_params %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student List -->
+  <div class="row mt-4">
+    <div class="col-md-10 mx-auto">
+      <h2 id="student-list" class="sr-only">List of Students</h2>
+      <div id="students" aria-labelledby="student-list">
+        <% if params[:search].present? %>
+          <% if @students.any? %>
+            <div class="row">
+              <% @students.each do |student| %>
+                <div class="col-md-6 col-sm-12 mb-4">
+                  <div class="card border-info">
+                    <div class="card-body bg-info text-white">
+                      <h5 class="card-title"><%= student.first_name %> <%= student.last_name %></h5>
+                      <p class="card-text">
+                        Major: <%= student.major %><br>
+                        Graduation Date: <%= student.graduation_date %>
+                      </p>
+                      <%= link_to "Show this student", student, class: "btn btn-warning", 'aria-label': "Show details for student #{student.first_name} #{student.last_name}" %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-danger" role="alert">No students found.</p>
+          <% end %>
+        <% else %>
+          <p>Please enter search criteria to find students.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Student Button -->
+  <div class="row mt-4">
+    <div class="col-md-8 text-center mx-auto">
+      <%= link_to "New student", new_student_path, class: "btn btn-success", 'aria-label': "Add a new student" %>
+    </div>
+  </div>
 </div>
-
-<%= link_to "New student", new_student_path %>
-
-<%= render 'search_form', search_params: @search_params %>
